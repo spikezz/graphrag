@@ -221,6 +221,17 @@ class LocalSearchMixedContext(LocalContextBuilder):
             context_records=final_context_data,
         )
 
+    def group_reports_by_community_id(self, log_dict):
+        """Group CommunityReport objects by their community IDs.
+        
+        Args:
+            log_dict: Dictionary where each value is a CommunityReport containing a community_id field
+            
+        Returns:
+            Dict[str, CommunityReport]: Dictionary mapping community IDs to their CommunityReport objects
+        """
+        return {report.community_id: report for report in log_dict.values()}
+
     def _build_community_context(
         self,
         selected_entities: list[Entity],
@@ -235,7 +246,6 @@ class LocalSearchMixedContext(LocalContextBuilder):
         """Add community data to the context window until it hits the max_tokens limit."""
         if len(selected_entities) == 0 or len(self.community_reports) == 0:
             return ("", {context_name.lower(): pd.DataFrame()})
-
         community_matches = {}
         for entity in selected_entities:
             # increase count of the community that this entity belongs to
@@ -244,17 +254,18 @@ class LocalSearchMixedContext(LocalContextBuilder):
                     community_matches[community_id] = (
                         community_matches.get(community_id, 0) + 1
                     )
-
+        report=self.group_reports_by_community_id(self.community_reports)
+        community_ids=report.keys()
         # sort communities by number of matched entities and rank
         selected_communities = [
-            self.community_reports[community_id]
+            report[community_id]
             for community_id in community_matches
-            if community_id in self.community_reports
+            if community_id in community_ids
         ]
         for community in selected_communities:
             if community.attributes is None:
                 community.attributes = {}
-            community.attributes["matches"] = community_matches[community.id]
+            community.attributes["matches"] = community_matches[community.community_id]
         selected_communities.sort(
             key=lambda x: (x.attributes["matches"], x.rank),  # type: ignore
             reverse=True,  # type: ignore
