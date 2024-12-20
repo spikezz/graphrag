@@ -36,7 +36,7 @@ async def run(  # noqa RUF029 async is required for interface
             if hasattr(chunk, "label"):
                 entity_type = chunk.label().lower()
                 if entity_type in entity_types:
-                    name = (" ".join(c[0] for c in chunk)).upper()
+                    name = (" ".join(c[0] for c in chunk))
                     connected_entities.append(name)
                     if name not in entity_map:
                         entity_map[name] = entity_type

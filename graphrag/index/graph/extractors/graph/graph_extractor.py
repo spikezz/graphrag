@@ -208,7 +208,7 @@ class GraphExtractor:
 
                 if record_attributes[0] == '"entity"' and len(record_attributes) >= 4:
                     # add this record as a node in the G
-                    entity_name = clean_str(record_attributes[1].upper())
+                    entity_name = clean_str(record_attributes[1])
                     entity_type = clean_str(record_attributes[2].upper())
                     entity_description = clean_str(record_attributes[3])
 
@@ -246,8 +246,8 @@ class GraphExtractor:
                     and len(record_attributes) >= 5
                 ):
                     # add this record as edge
-                    source = clean_str(record_attributes[1].upper())
-                    target = clean_str(record_attributes[2].upper())
+                    source = clean_str(record_attributes[1])
+                    target = clean_str(record_attributes[2])
                     edge_description = clean_str(record_attributes[3])
                     edge_source_id = clean_str(str(source_doc_id))
                     try:
