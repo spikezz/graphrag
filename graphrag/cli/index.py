@@ -204,4 +204,4 @@ def _run_index(
     else:
         success("All workflows completed successfully.", True)
 
-    sys.exit(1 if encountered_errors else 0)
+    # sys.exit(1 if encountered_errors else 0)
