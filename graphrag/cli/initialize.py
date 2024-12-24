@@ -28,7 +28,7 @@ from graphrag.prompts.query.question_gen_system_prompt import QUESTION_SYSTEM_PR
 
 def initialize_project_at(path: Path) -> None:
     """Initialize the project at the given path."""
-    progress_reporter = create_progress_reporter(ReporterType.RICH)
+    progress_reporter = create_progress_reporter(ReporterType.PRINT)
     progress_reporter.info(f"Initializing project at {path}")
     root = Path(path)
     if not root.exists():
