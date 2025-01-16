@@ -78,7 +78,7 @@ def get_local_search_engine(
             "include_entity_rank": True,
             "include_relationship_weight": True,
             "include_community_rank": False,
-            "return_candidate_context": False,
+            "return_candidate_context": True,
             "embedding_vectorstore_key": EntityVectorStoreKey.ID,  # set this to EntityVectorStoreKey.TITLE if the vectorstore uses entity title as ids
             "max_tokens": ls_config.max_tokens,  # change this based on the token limit you have on your model (if you are using a model with 8k limit, a good setting could be 5000)
         },
